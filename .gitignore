@@ -1,3 +1,7 @@
 # C Compilation
 obj/
 *.a
+
+client
+server
+test.c

@@ -6,7 +6,7 @@
 /*   By: roandrie <roandrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 11:24:26 by roandrie          #+#    #+#             */
-/*   Updated: 2026/01/23 12:31:35 by roandrie         ###   ########.fr       */
+/*   Updated: 2026/01/23 13:06:43 by roandrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,7 @@
 
 # include "../libft/include/libft.h"
 # include <unistd.h>
+# include <stdlib.h>
+# include <signal.h>
 
 #endif
