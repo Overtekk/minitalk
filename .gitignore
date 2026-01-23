@@ -1,6 +1,7 @@
 # C Compilation
 obj/
 *.a
+a.out
 
 client
 server
