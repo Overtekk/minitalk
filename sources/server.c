@@ -5,31 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: roandrie <roandrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/23 11:41:23 by roandrie          #+#    #+#             */
-/*   Updated: 2026/01/23 12:55:58 by roandrie         ###   ########.fr       */
+/*   Created: 2026/01/19 11:41:23 by roandrie          #+#    #+#             */
+/*   Updated: 2026/01/24 09:44:11 by roandrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
-void reaction(int signal)
+void	print_signal(int bit)
 {
-	if (signal == SIGUSR1)
-		ft_printf(1, "Signal received!");
+	static int	i = 0;
+	static char	c = 0;
+
+	c = c << 1 | bit;
+	i++;
+	if (i == 8)
+	{
+		if (c == '\0')
+			write(1, "\n", 1);
+		else
+			write(1, &c, 1);
+		i = 0;
+		c = 0;
+	}
 }
 
-int main()
+void	get_signal(int signal)
 {
-	int	pid;
+	if (signal == SIGUSR1)
+		print_signal(0);
+	else
+		print_signal(1);
+}
 
-	pid = getpid();
-	ft_printf(1, "[Server] PID: %d\n", pid);
+int	main(void)
+{
+	struct sigaction	sa;
 
-	signal(SIGUSR1, reaction);
-
-	while(1)
-	{
+	ft_printf(1, "[Server] PID: %d\n", getpid());
+	sa.sa_handler = &get_signal;
+	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	while (1)
 		pause();
-	}
 	return (0);
 }

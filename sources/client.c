@@ -5,50 +5,46 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: roandrie <roandrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/23 11:00:27 by roandrie          #+#    #+#             */
-/*   Updated: 2026/01/23 21:39:32 by roandrie         ###   ########.fr       */
+/*   Created: 2026/01/19 11:00:27 by roandrie          #+#    #+#             */
+/*   Updated: 2026/01/24 09:48:04 by roandrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
-// char* string_to_binary(char* str)
-// {
-// 	if (str == NULL)
-// 		return (0);
-// 	int	i;
-// 	int j;
-// 	size_t	len;
-// 	char	*str_binary;
-// 	len = ft_strlen(str);
-// 	str_binary = malloc((len * 8) + 1);
-// 	if (str_binary == NULL)
-// 		return (NULL);
-// 	i = 0;
-// 	while(str[i] != '\0')
-// 	{
-
-// 	}
-
-// 	return (str_binary);
-// }
-
-
-
-int main(int argc, char **argv)
+int	send_bytes(char c, int server_pid)
 {
+	int	i;
+	int	bit;
+
+	i = 7;
+	while (i >= 0)
+	{
+		bit = (c >> i) & 1;
+		if (bit == 0)
+			kill(server_pid, SIGUSR1);
+		else
+			kill(server_pid, SIGUSR2);
+		usleep(1000);
+		i--;
+	}
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	int	server_pid;
+	int	i;
+
 	if (argc != 3)
-		return (ft_printf(2, "Error: Invalid arguments"), 2);
-
-	int server_pid;
-	// char *str;
-
-	int test = ft_atoi_base("28", "01");
-	ft_printf(1, "%d", test);
-
-	// str = string_to_binary(argv[2]);
-
+		return (ft_printf(2, "Error: Usage = './client <pid> <message>'"), 2);
+	i = 0;
 	server_pid = ft_atoi(argv[1]);
-	kill(server_pid, SIGUSR1);
+	while (argv[2][i] != '\0')
+	{
+		send_bytes(argv[2][i], server_pid);
+		i++;
+	}
+	send_bytes('\0', server_pid);
 	return (0);
 }
