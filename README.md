@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets_github/minitalk.png" width="350" />
+  <img src="assets/minitalk.png" width="200" />
 </p>
 <h3 align="center">
   <em>Code a small data exchange program using UNIX signals.</em>
