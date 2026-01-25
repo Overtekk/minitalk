@@ -6,25 +6,34 @@
 /*   By: roandrie <roandrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:41:23 by roandrie          #+#    #+#             */
-/*   Updated: 2026/01/24 09:44:11 by roandrie         ###   ########.fr       */
+/*   Updated: 2026/01/25 15:30:15 by roandrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
+#define SIZE_BUFFER 1024
+
 void	print_signal(int bit)
 {
 	static int	i = 0;
+	static int	buff_index = 0;
 	static char	c = 0;
+	static char	buffer[SIZE_BUFFER];
 
 	c = c << 1 | bit;
 	i++;
 	if (i == 8)
 	{
-		if (c == '\0')
-			write(1, "\n", 1);
-		else
-			write(1, &c, 1);
+		buffer[buff_index++] = c;
+		if (c == '\0' || c == '\n' || buff_index == SIZE_BUFFER)
+		{
+			if (buff_index > 0)
+			{
+				write(1, buffer, buff_index);
+				buff_index = 0;
+			}
+		}
 		i = 0;
 		c = 0;
 	}
@@ -40,16 +49,9 @@ void	get_signal(int signal)
 
 int	main(void)
 {
-	struct sigaction	sa;
-
 	ft_printf(1, "[Server] PID: %d\n", getpid());
-	sa.sa_handler = &get_signal;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGUSR1);
-	sigaddset(&sa.sa_mask, SIGUSR2);
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	signal(SIGUSR1, get_signal);
+	signal(SIGUSR2, get_signal);
 	while (1)
 		pause();
 	return (0);
