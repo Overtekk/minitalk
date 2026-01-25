@@ -98,11 +98,16 @@ Once 8 signals are received, the byte is complete. The character is printed (or 
 
 ## 📚 Resources & AI Usage
 
-https://42-cursus.gitbook.io/guide/2-rank-02/minitalk\
-https://github.com/hanshazairi/42-minitalk\
-https://medium.com/@digitalpoolng/42-minitalk-building-a-simple-client-server-communication-program-in-c-a5e6d96c97ec\
-https://github.com/leogaudin/minitalk\
-https://zestedesavoir.com/tutoriels/755/le-langage-c-1/notions-avancees/manipulation-des-bits/\
+https://42-cursus.gitbook.io/guide/2-rank-02/minitalk
+
+https://github.com/hanshazairi/42-minitalk
+
+https://medium.com/@digitalpoolng/42-minitalk-building-a-simple-client-server-communication-program-in-c-a5e6d96c97ec
+
+https://github.com/leogaudin/minitalk
+
+https://zestedesavoir.com/tutoriels/755/le-langage-c-1/notions-avancees/manipulation-des-bits/
+
 Man pages for signal(), kill(), etc...
 
 #### AI Usage Disclaimer
