@@ -62,7 +62,15 @@ make
 ./client 4242 "Hello, World!"
 ```
 
-### 3. Error Management Checklist
+### 3. Bonus part:
+```bash
+make bonus
+```
+Use the same as above but with *_bonus*
+
+(e.g. : `./client_bonus 4242 "Hey"`).
+
+### 4. Error Management Checklist
 
 The program handles the following edge cases:
 
@@ -84,6 +92,7 @@ The client breaks down every character of the message string into **8 bits** (1 
 - It uses bitwise operators (>> and &) to determine if a bit is 0 or 1.
 - It sends SIGUSR1 for 0 and SIGUSR2 for 1.
 - Timing: A micro-pause (usleep) is added between signals to ensure the server has time to process the previous bit (tuned to match the server's processing speed).
+- **Bonus**: After sending the null terminator (`\0`), the client waits for a confirmation signal from the server before exiting.
 
 ### 2. The Server (Receiver)
 
@@ -96,6 +105,16 @@ When it receives a signal:
 
 Once 8 signals are received, the byte is complete. The character is printed (or stored in a buffer for faster printing) and the variables are reset for the next character.
 
+### Bonus:
+
+The server waits for signals using **sigaction** (instead of signal).
+
+Using **sigaction** allows access to the **siginfo_t** structure, which contains the Sender's PID (*si_pid*).
+
+Once 8 signals are received, the byte is complete.
+- Unicode: Since UTF-8 characters are just sequences of bytes, the server reconstructs them byte by byte and the terminal handles the display of emojis or accents automatically.
+- Acknowledgement: When the server encounters the null terminator (\0), it sends a SIGUSR1 signal back to the specific Client PID to confirm the message was fully received.
+
 ## 📚 Resources & AI Usage
 
 https://42-cursus.gitbook.io/guide/2-rank-02/minitalk
@@ -107,6 +126,8 @@ https://medium.com/@digitalpoolng/42-minitalk-building-a-simple-client-server-co
 https://github.com/leogaudin/minitalk
 
 https://zestedesavoir.com/tutoriels/755/le-langage-c-1/notions-avancees/manipulation-des-bits/
+
+https://medium.com/@Kr1sNg/step-by-step-guide-to-minitalk-project-at-school-42-deacf16369ec
 
 Man pages for signal(), kill(), etc...
 
