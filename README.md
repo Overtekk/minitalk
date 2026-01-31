@@ -34,7 +34,10 @@ The challenge is to create a Client and a Server that communicate only using two
 
 ## 🐨 Status
 
-Not completed yet.
+Completed on **31/01/2026** with bonus.
+<p align="left">
+  <img src="assets/minitalk_score.png" width="150" />
+</p>
 
 ## 🔷 Instructions
 
